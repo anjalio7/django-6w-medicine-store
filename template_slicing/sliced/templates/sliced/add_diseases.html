@@ -1,0 +1,22 @@
+{% extends  "sliced/layout.html" %}
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col col-lg-8 my-2  mx-auto bg-info">
+            <h1>ADD DISEASE NAME</h1>
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="col-lg-8  mx-auto ">
+                <input type="text" name="dis" placeholder=" Enter Name">
+                </div>
+            </br>
+                <div class="col-lg-8  mx-auto ">
+                <button type="submit" class="btn-primary">Submit</button>
+                </div>
+                <br>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

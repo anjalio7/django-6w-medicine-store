@@ -1,0 +1,43 @@
+{% extends 'sliced/layout.html' %}
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <h1>ALL DISEASES</h1>
+        <table class="table table-bordered" >
+        <tr>
+            
+            <th>Name</th>
+            <th>Image</th>
+            <th>PRICE</th>
+            <th>Mfg Date</th>
+            <th>Expiry Date</th>
+            <th>Manufactured by</th>
+            <th>Description</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        {% for i in data %}
+        <tr>
+            <td>{{i.Name}}</td>
+            <td>{{i.Image}}</td>
+            <td>{{i.Price}}</td>
+            <td>{{i.Mfg Date}}</td>
+            <td>{{i.Expiry Date}}</td>
+            <td>{{i.Manufactured By}}</td>
+            <td>{{i.Description}}</td>
+            <td>
+                <a href="{% url 'edit-medicine' i.id %}">
+                    <button class="btn btn-dark">Edit</button>
+                </a>
+            </td>
+            <td>
+                <a href="{%  url 'deletemedicine' i.id %}">
+                    <button class="btn btn-dark">Delete</button>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    </div>
+</div>
+{% endblock%}
