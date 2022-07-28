@@ -13,10 +13,17 @@
             <div class="col col-md-6  my-2 p-3 mx-auto ">
 
             
-            <form action=""  method="post">
+            <form action=""  method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 
-                    
+                <div class="form-group">
+                    <label for="">Disease</label>
+                    <select name="disease-name" id="">
+                        {% for i in data %}
+                            <option value="{{i.id}}">{{i.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
                 
                 <div class="form-group">
                     <form action="#">
@@ -42,25 +49,25 @@
                                             </div>
                                             <div class="form-group">
                                               
-                                                    <div class="form-group">
-                                                        <label for="">MFG DATE </label>
+                                                    
+                                                        <label for="">MfgDate </label>
                                                         <input type="date"  class="form-control" name="mfgdate" placeholder="MFG ">
                                                         </div>
 
                                                     </div>
                                                     <div class="form-group">
                                                         
-                                                            <div class="form-group">
+                                                            
                                                                 <label for="">Expiry Date </label>
-                                                                <input type="date"  class="form-control" name="expiry date" placeholder="Expirydate">
+                                                                <input type="date"  class="form-control" name="expiry-date" placeholder="Expirydate">
                                                                 </div>   
 
                                                             </div>
                                                             <div class="form-group">
                                                              
-                                                                    <div class="form-group">
+                                                                    
                                                                         <label for="">MANUFACTURED BY </label>
-                                                                        <input type="text" name="DESCRIPTION" class="form-control" name="manufacturedby" placeholder="Manufactured by">
+                                                                        <input type="text" name="manfc" class="form-control" name="manufacturedby" placeholder="Manufactured by">
                                                                         </div>
 
                                                                     </div>
@@ -68,7 +75,7 @@
                                                                         
                                                                             
                                                                                 <label for="">DESCRIPTION </label>
-                                                                                <textarea name="DESCRIPTION" class="form-control" name="description"  placeholder="Description" rows="6"></textarea>
+                                                                                <textarea name="desc" class="form-control" name="description"  placeholder="Description" rows="6"></textarea>
                                                                                 </div>
                                                                                 
                                                                                 <div class="row my-3">

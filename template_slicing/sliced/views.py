@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
@@ -99,23 +100,58 @@ def deletedisease(request, ids):
     #return render( request, 'sliced/add_medicine.html')
     
 def add_medicine(request):
+    data = Diseases.objects.all()
     if request.method =="POST":
-        obj = Medicine()
-        obj.name = request.POST['dis']
-        obj.save()
-        return HttpResponseRedirect(reverse('listMedicine'))
-    else:
-        return render(request, 'sliced/add_medicine.html') 
+        dis = request.POST['disease-name']
+        name = request.POST['name']
+        img = request.FILES['image']
+        price = request.POST['price']
+        mfg = request.POST['mfgdate']
+        exp = request.POST['expiry-date']
+        manfc = request.POST['manfc']
+        desc = request.POST['desc']
 
-def edit_medicine(request,ids):
-    medicine = Medicine.objects.get(id=ids)
-    if request.method =="POST":
-        edis = request.POST['dis']
-        medicine.name = edis
-        medicine.save()
+        selDis = Diseases.objects.get(id = dis)
+
+        a = Medicine(Disease_id = selDis, Name = name, Image = img, Price = price, MfgDate = mfg, Expirydate = exp, Description = desc, ManufacturedBy = manfc)
+        a.save()
         return HttpResponseRedirect(reverse('listmedicine'))
     else:
-        return render(request, 'sliced/edit_medicine.html', {'data': medicine})   
+        return render(request, 'sliced/add_medicine.html', {'data': data}) 
+
+def edit_medicine(request,ids):
+    data = Diseases.objects.all()
+    med = Medicine.objects.get(id = ids)
+    if request.method =="POST":
+        dis = request.POST['disease-name']
+        name = request.POST['name']
+        img = request.FILES.get('image')
+        price = request.POST['price']
+        mfg = request.POST.get('mfgdate')
+        exp = request.POST.get('expiry-date')
+        manfc = request.POST['manfc']
+        desc = request.POST['desc']
+
+        selDis = Diseases.objects.get(id = dis)
+
+        # a = Medicine(Disease_id = selDis, Name = name, Image = img, Price = price, MfgDate = mfg, Expirydate = exp, Description = desc, ManufacturedBy = manfc)
+        # a.save()
+        med.Disease_id = selDis
+        if img is not None:
+            med.Image = img
+        if mfg is not None:
+            med.MfgDate = mfg
+        if exp is not None:
+            med.Expirydate = exp
+        med.Name = name
+        med.Price = price
+        med.Description = desc
+        med.ManufacturedBy = manfc
+        med.save()
+        return HttpResponseRedirect(reverse('listmedicine'))
+    
+    else:
+        return render(request, 'sliced/edit_medicine.html', {'data': data, 'med': med})   
 
 def listmedicine(request):
     data = Medicine.objects.all()
@@ -126,5 +162,6 @@ def deletemedicine(request, ids):
     data.delete()
     return HttpResponseRedirect(reverse('listmedicine'))
 
-
+def add_orders(request):
+    return render(request, 'sliced/add_orders.html')
 
