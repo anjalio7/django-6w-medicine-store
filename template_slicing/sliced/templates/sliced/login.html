@@ -97,8 +97,13 @@
       </div>
     </div>
     <div class="container layout_padding2">
-      <div class="row">
+      <div class="row align-items-center">
         <div class="col-md-5">
+          {% if message %}
+              <div class="my-3">
+                <div class="alert alert-danger" >{{message}}</div>
+              </div> 
+              {% endif %}
           <div class="form_contaier">
             <form method="post" action="{% url 'login' %}">
               {% csrf_token %}
@@ -111,13 +116,6 @@
                 <input type="password" class="form-control" name = "password" id="exampleInputNumber1">
               </div>
               
-              {% if message %}
-              <div class="my-3">
-                
-                <div class="error-message" ></div>
-                <div class="sent- message alert-danger" >{{message}}</div>
-              </div> 
-              {% endif %}
               
               <input type="submit" class="btn btn-primary" value="Login" >
             </form>

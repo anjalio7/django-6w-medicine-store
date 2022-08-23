@@ -1,0 +1,53 @@
+{% extends 'sliced/layout.html' %}
+{% load static %}
+
+{% block body %}
+
+<div class="container layout_padding-2">
+        <h1>Orders</h1>
+        <table class="table table-bordered mt-3 shadow " >
+        <tr>
+            <th>Id</th>
+            <th>Medicine</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Order Date</th>
+            <th>Address</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        {% if data|length > 0 %}
+        {% for i in data %}
+        <tr>
+            <td>{{i.id}}</td>
+            <td>{{i.medicineId.Name}}</td>
+            <td>₹ {{i.medicineId.Price}}</td>
+            <td>{{i.quantity}}</td>
+            <td>
+                ₹ {{i.totalCost}}
+            </td>
+            <td>{{i.orderDate}}</td>
+            <td>{{i.address}}</td>
+            <td><span
+                class="badge text-white {% if i.status == 'Accept'%} badge-success {% else %} badge-danger{% endif %}">{{i.status}}</span></td>
+
+                <td>
+                    <div class="d-flex justify-content-between">
+                        {% if i.status == 'pending' %}
+                        <a href="{% url 'updateOrder' i.id 'Accept' %}" class="btn btn-dark btn-sm">Accept</a>
+                        <a href="{% url 'updateOrder' i.id 'Reject' %}" class="btn btn-dark btn-sm"   >Reject</a>
+                        {% endif %}
+                    </div>
+                </td>
+            
+        </tr>
+        {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="12"> No data to show yet.</td>
+            </tr>
+        {% endif %}
+    </table>
+</div>
+{% endblock%}

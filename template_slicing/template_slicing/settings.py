@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sliced',
+    'user_module'
 ]
 
 MIDDLEWARE = [
@@ -65,6 +66,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'user_module.context_processors.add_variable_to_context',
+
             ],
         },
     },

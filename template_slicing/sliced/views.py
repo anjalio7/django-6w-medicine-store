@@ -2,17 +2,19 @@ from dataclasses import dataclass
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.shortcuts import render
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.exceptions import ValidationError
 
-from .models import Diseases, Medicine, user
+from .models import Diseases, Medicine, user, Order
 
 
 # Create your views here.
 def index(request):
-    return render (request,'sliced/layout.html')
+    disCount = Diseases.objects.all().count()
+    medCount = Medicine.objects.all().count()
+    orderCount = Order.objects.all().count()
+    return render (request,'sliced/home.html', {'disCount': disCount, 'medCount': medCount, 'orderCount': orderCount})
 
 
 
@@ -38,34 +40,6 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse('login'))
-
-
-def register(request):
-    if request.method == "POST":
-        username = request.POST["username"]
-        email = request.POST["email"]
-
-        # Ensure password matches confirmation
-        password = request.POST["password"]
-        confirmation = request.POST["confirmation"]
-        if password != confirmation:
-            return render(request, "sliced/register.html", {
-                "message": "Passwords must match."
-            })
-
-        # Attempt to create new user
-        try:
-            user = user.objects.create_user(username, email, password)
-            user.save()
-        except ValidationError as v:
-                return render(request, 'sliced/register.html', {'message': 'Characters must be greater than 3.'})
-        except IntegrityError:
-            return render(request, "sliced/register.html", {
-                "message": "Username already taken."
-            })
-        return render(request, 'sliced/register.html', {"message": 'Registered successfully.'})
-    else:
-        return render(request, "sliced/register.html")
 
 def add_diseases(request):
     if request.method =="POST":
@@ -111,9 +85,11 @@ def add_medicine(request):
         manfc = request.POST['manfc']
         desc = request.POST['desc']
 
+        stock = request.POST['stock']
+
         selDis = Diseases.objects.get(id = dis)
 
-        a = Medicine(Disease_id = selDis, Name = name, Image = img, Price = price, MfgDate = mfg, Expirydate = exp, Description = desc, ManufacturedBy = manfc)
+        a = Medicine(Disease_id = selDis, Name = name, Image = img, Price = price, MfgDate = mfg, Expirydate = exp, Description = desc, ManufacturedBy = manfc, stock = stock)
         a.save()
         return HttpResponseRedirect(reverse('listmedicine'))
     else:
@@ -123,6 +99,7 @@ def edit_medicine(request,ids):
     data = Diseases.objects.all()
     med = Medicine.objects.get(id = ids)
     if request.method =="POST":
+        print(request.POST)
         dis = request.POST['disease-name']
         name = request.POST['name']
         img = request.FILES.get('image')
@@ -132,21 +109,24 @@ def edit_medicine(request,ids):
         manfc = request.POST['manfc']
         desc = request.POST['desc']
 
+        stock = request.POST['stock']
+
+
         selDis = Diseases.objects.get(id = dis)
 
-        # a = Medicine(Disease_id = selDis, Name = name, Image = img, Price = price, MfgDate = mfg, Expirydate = exp, Description = desc, ManufacturedBy = manfc)
-        # a.save()
         med.Disease_id = selDis
         if img is not None:
             med.Image = img
-        if mfg is not None:
+        if (mfg != ''):
+            print('yay')
             med.MfgDate = mfg
-        if exp is not None:
+        if (exp != ''):
             med.Expirydate = exp
         med.Name = name
         med.Price = price
         med.Description = desc
         med.ManufacturedBy = manfc
+        med.stock = stock
         med.save()
         return HttpResponseRedirect(reverse('listmedicine'))
     
@@ -162,6 +142,18 @@ def deletemedicine(request, ids):
     data.delete()
     return HttpResponseRedirect(reverse('listmedicine'))
 
-def add_orders(request):
-    return render(request, 'sliced/add_orders.html')
+def allOrders(request):
+    data = Order.objects.all()
+    print(data)
+    return render(request, 'sliced/allOrders.html', {'data': data})
 
+def updateOrder(request, id, type):
+    orderData = Order.objects.get(id = id)
+    orderData.status = type
+    orderData.save()
+    if type == 'Accept':
+        med = Medicine.objects.get(id = orderData.medicineId.id)
+        # print(f'books is {books}')
+        med.stock = int(med.stock) - int(orderData.quantity)
+        med.save()
+    return HttpResponseRedirect(reverse('adminOrders'))

@@ -1,0 +1,43 @@
+{% extends 'user_module/layout.html' %}
+{% load static %}
+
+{% block body %}
+
+<div class="container layout_padding">
+        <h1>Orders</h1>
+        <table class="table table-bordered mt-3 shadow " >
+        <tr>
+            <th>Id</th>
+            <th>Medicine</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Order Date</th>
+            <th>Address</th>
+            <th>Status</th>
+        </tr>
+        {% if data|length > 0 %}
+        {% for i in data %}
+        <tr>
+            <td>{{i.id}}</td>
+            <td>{{i.medicineId.Name}}</td>
+            <td>₹ {{i.medicineId.Price}}</td>
+            <td>{{i.quantity}}</td>
+            <td>
+                ₹ {{i.totalCost}}
+            </td>
+            <td>{{i.orderDate}}</td>
+            <td>{{i.address}}</td>
+            <td><span
+                class="badge text-white {% if i.status != 'Accept'%} badge-success {% else %} badge-danger{% endif %}">{{i.status}}</span></td>
+            
+        </tr>
+        {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="12"> No data to show yet.</td>
+            </tr>
+        {% endif %}
+    </table>
+</div>
+{% endblock%}

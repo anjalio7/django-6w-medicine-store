@@ -1,11 +1,14 @@
 {% extends 'sliced/layout.html' %}
+{% load static %}
+
 {% block body %}
 
 <div class="container">
-    <div class="row">
-        <h1>ALL MEDICINE</h1>
-        <table class="table table-bordered bg-light " >
+        <h1>ALL MEDICINES</h1>
+        <a href="{% url 'add_medicine' %}" class="btn btn-primary mb-4">Add Medicines</a>
+        <table class="table table-bordered mt-3 shadow " >
         <tr>
+            <th>Id</th>
             <th>Disease</th>
             <th>Name</th>
             <th>Image</th>
@@ -13,21 +16,25 @@
             <th>Mfg Date</th>
             <th>Expiry Date</th>
             <th>Manufactured by</th>
+            <th>Stock</th>
             <th>Description</th>
             <th>Edit</th>
             <th>Delete</th>
         </tr>
+        {% if data|length > 0 %}
         {% for i in data %}
         <tr>
+            <td>{{i.id}}</td>
             <td>{{i.Disease_id.name}}</td>
             <td>{{i.Name}}</td>
             <td>
                 <img src="{{i.Image.url}}" alt="" height="200px" width="200px">
             </td>
-            <td>{{i.Price}}</td>
+            <td>{{i.Price}}/-</td>
             <td>{{i.MfgDate}}</td>
             <td>{{i.Expirydate}}</td>
             <td>{{i.ManufacturedBy}}</td>
+            <td>{{i.stock}}</td>
             <td>{{i.Description}}</td>
             <td>
                 <a href="{% url 'edit-medicine' i.id %}">
@@ -41,7 +48,11 @@
             </td>
         </tr>
         {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="12"> No data to show yet.</td>
+            </tr>
+        {% endif %}
     </table>
-    </div>
 </div>
 {% endblock%}

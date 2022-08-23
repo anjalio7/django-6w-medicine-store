@@ -1,102 +1,90 @@
 {% extends "sliced/layout.html" %}
-{% block body %}
-    <title>Document</title>
-</head>
-<body>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-8 bg-info mx-auto" >
-                <h1 class="text-center text-dark">ADD MEDICINE</h1>
-    <div class="container-fluid">
-        
-        <div class="row">
-            <div class="col col-md-6  my-2 p-3 mx-auto ">
+{% load static %}
 
-            
-            <form action=""  method="post" enctype="multipart/form-data">
+
+{% block body %}
+    <div class="container-fluid p-2">
+        <h1 class="text-center text-dark mb-3">ADD MEDICINE</h1>
+        <div class="container-fluid p-3">
+            <form action="{% url 'add_medicine' %}" method="post" enctype="multipart/form-data" class="shadow p-2">
                 {% csrf_token %}
-                
-                <div class="form-group">
-                    <label for="">Disease</label>
-                    <select name="disease-name" id="">
-                        {% for i in data %}
-                            <option value="{{i.id}}">{{i.name}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <form action="#">
-                        <div class="form-group">
-                            <label for="">NAME</label>
-                            <input type="text" class="form-control" name="name" placeholder="Name"/>
-                        </div>
-                        <div class="form-group">
-                          
+
+                    <div class="row">
+                        <div class="col-md-6 d-flex flex-column">
+                            <div class="form-group">
+                                <label for="">Disease</label>
+                                <select class="form-control" name="disease-name" id="" required>
+                                    {% for i in data %}
+                                    <option value="" selected disabled>Select disease</option>
+                                    <option value="{{i.id}}">{{i.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="">PRICE</label>
+                                <input type="number" class="form-control" required name="price"
+                                    placeholder="MRP" min="1">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="">Expiry Date </label>
+                                <input type="date" required class="form-control" name="expiry-date"
+                                    placeholder="Expirydate">
+                            </div>
+
                                 <div class="form-group">
                                     <label for="">IMAGE</label>
-                                   <input type="file" class="form-control" name="image" >
-                                    <img src="">
-                                    
-                                </div> 
-                                <div class="form-group">
-                                  
-                                        <div class="form-group">
-                                            <label for="">PRICE</label>
-                                         <input type="number" class="form-control" name="price" placeholder="MRP">  
-                                           
-                                
-                                            </div>
-                                            <div class="form-group">
-                                              
-                                                    
-                                                        <label for="">MfgDate </label>
-                                                        <input type="date"  class="form-control" name="mfgdate" placeholder="MFG ">
-                                                        </div>
+                                    <input type="file" required class="form-control" name="image">
 
-                                                    </div>
-                                                    <div class="form-group">
-                                                        
-                                                            
-                                                                <label for="">Expiry Date </label>
-                                                                <input type="date"  class="form-control" name="expiry-date" placeholder="Expirydate">
-                                                                </div>   
-
-                                                            </div>
-                                                            <div class="form-group">
-                                                             
-                                                                    
-                                                                        <label for="">MANUFACTURED BY </label>
-                                                                        <input type="text" name="manfc" class="form-control" name="manufacturedby" placeholder="Manufactured by">
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <div class="form-group">
-                                                                        
-                                                                            
-                                                                                <label for="">DESCRIPTION </label>
-                                                                                <textarea name="desc" class="form-control" name="description"  placeholder="Description" rows="6"></textarea>
-                                                                                </div>
-                                                                                
-                                                                                <div class="row my-3">
-                                                                                    <div class="col-md-4 mx-auto">
-                                                                                        <button class="btn btn-primary btn-sm">SUBMIT</button>
-                                                                                    </div>
-                                                        
-                                           
-                                            
-                                        </div>
-                                    </form>
                                 </div>
-                                </div>
-                            </form>
+
                         </div>
-                    </form>
-                </div>
-            </form>
+                        <div class="col-md-6 d-flex flex-column">
+                            <div class="form-group">
+                                <label for="">NAME</label>
+                                <input type="text" required class="form-control" name="name" placeholder="Name" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="">MfgDate </label>
+                                <input type="date" required class="form-control" name="mfgdate"
+                                    placeholder="MFG ">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="">MANUFACTURED BY </label>
+                                <input type="text" required name="manfc" class="form-control" name="manufacturedby"
+                                    placeholder="Manufactured by">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="">STOCK </label>
+                                <input type="number" required name="stock" class="form-control" 
+                                    placeholder="Stock" min="1">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+
+                                <label for="">DESCRIPTION </label>
+                                 <textarea name="desc" required class="form-control" name="description"
+                                     placeholder="Description" rows="6"></textarea>
+                             </div>
+                        </div>
+
+                        <div class="col-md-12 text-center">
+                            <button class="btn btn-primary" type="submit">Add</button>
+                        </div>
+                        
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
-    
-</body>
-</html>
+
+               
+
 {% endblock %}

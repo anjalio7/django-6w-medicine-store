@@ -23,6 +23,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('sliced.urls')),
+    path('user/',include('user_module.urls')),
 ]
 
 if settings.DEBUG:

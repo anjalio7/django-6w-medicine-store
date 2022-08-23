@@ -1,0 +1,71 @@
+{% extends 'user_module/layout.html' %}
+{% load static %}
+
+{% block body %}
+      <!-- contact section -->
+  <section class="contact_section layout_padding">
+    <div class="container">
+      <div class="row">
+        <div class="custom_heading-container ">
+          <h2>
+            {{medData.Name}}
+            <span class="ml-3 badge bg-dark text-white">{{medData.Disease_id.name}}</span>
+          </h2>
+        </div>
+      </div>
+    </div>
+    <div class="container layout_padding2">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <table class="table">
+                <tr>
+                    <th>Name</th>
+                    <td>{{medData.Name}}</td>
+                </tr>
+                <tr>
+                    <th>Price</th>
+                    <td>₹ {{medData.Price}}</td>
+                </tr>
+                <tr>
+                    <th>Manufacturing Date</th>
+                    <td>{{medData.MfgDate}}</td>
+                </tr>
+                <tr>
+                    <th>Expiry Date</th>
+                    <td>{{medData.Expirydate}}</td>
+                </tr>
+                <tr>
+                    <th>Manufactured By</th>
+                    <td>{{medData.ManufacturedBy}}</td>
+                </tr>
+                <tr>
+                    <th>Stock</th>
+                    <td>{{medData.stock}}</td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td>{{medData.Description}}</td>
+                </tr>
+          </table>
+          <div class="mt-4">
+            <a href="{% url 'addToCart' medData.id %}" class=" btn btn-primary">Add To Cart</a>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="detail-box shadow" >
+            <!-- <h3>
+              Get Now Medicines
+            </h3>
+            <p>
+              There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration
+              in some form, by injected humour, or randomised words which don't look even slightly believable.
+            </p> -->
+            <img src="{{medData.Image.url}}" alt="" width="70%" height="50%">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- end contact section -->
+{% endblock %}

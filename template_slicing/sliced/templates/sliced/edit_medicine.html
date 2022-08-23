@@ -1,109 +1,90 @@
 {% extends "sliced/layout.html" %}
-{% block body %}
-<title>Document</title>
-</head>
+{% load static %}
 
-<body>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-8 bg-info mx-auto">
-                <h1 class="text-center text-dark">ADD MEDICINE</h1>
-                <div class="container-fluid">
+
+{% block body %}
+    <div class="container-fluid p-2">
+        <h1 class="text-center text-dark mb-3">EDIT MEDICINE</h1>
+        <div class="container-fluid p-3">
+            <form action="{% url 'edit-medicine' med.id %}" method="post" enctype="multipart/form-data" class="shadow p-2">
+                {% csrf_token %}
 
                     <div class="row">
-                        <div class="col col-md-6  my-2 p-3 mx-auto ">
+                        <div class="col-md-6 d-flex flex-column">
+                            <div class="form-group">
+                                <label for="">Disease</label>
+                                <select class="form-control" name="disease-name" id="" required>
+                                    {% for i in data %}
+                                    <option value="" selected disabled>Select disease</option>
+                                    <option {% if i.id == med.Disease_id.id %} selected {% endif %} value="{{i.id}}">{{i.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
 
+                            <div class="form-group">
+                                <label for="">PRICE</label>
+                                <input type="number" class="form-control"  name="price" value="{{med.Price}}"
+                                    placeholder="MRP" min="1">
+                            </div>
 
-                            <form action="" method="post" enctype="multipart/form-data">
-                                {% csrf_token %}
+                            <div class="form-group">
+                                <label for="">Expiry Date </label>
+                                <input type="date"  class="form-control"  name="expiry-date" value="{{med.Expirydate}}"
+                                    placeholder="Expirydate">
+                            </div>
 
                                 <div class="form-group">
-                                    <label for="">Disease</label>
-                                    <select name="disease-name" id="">
-                                        {% for i in data %}
-                                        <option value="{{i.id}}" {% if i.id == med.Disease_id.id %} selected {% endif %}>{{i.name}}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <form action="#">
-                                        <div class="form-group">
-                                            <label for="">NAME</label>
-                                            <input type="text" value="{{med.Name}}" class="form-control" name="name" placeholder="Name" />
-                                        </div>
-                                        <div class="form-group">
-
-                                            <div class="form-group">
-                                                <label for="">IMAGE</label>
-                                                <input type="file"  class="form-control" name="image">
-                                                <img src="">
-
-                                            </div>
-                                            <div class="form-group">
-
-                                                <div class="form-group">
-                                                    <label for="">PRICE</label>
-                                                    <input type="number" value="{{med.Price}}" class="form-control" name="price"
-                                                        placeholder="MRP">
-
-
-                                                </div>
-                                                <div class="form-group">
-
-
-                                                    <label for="">MfgDate </label>
-                                                    <input type="date" value="{{(med.MfgDate) | |date }}" class="form-control" name="mfgdate"
-                                                        placeholder="MFG ">
-                                                </div>
-
-                                            </div>
-                                            <div class="form-group">
-
-
-                                                <label for="">Expiry Date </label>
-                                                <input type="date" class="form-control" value="{{med.Expirydate}}" name="expiry-date"
-                                                    placeholder="Expirydate">
-                                            </div>
-
-                                        </div>
-                                        <div class="form-group">
-
-
-                                            <label for="">MANUFACTURED BY </label>
-                                            <input type="text" name="manfc" value="{{med.ManufacturedBy}}" class="form-control" name="manufacturedby"
-                                                placeholder="Manufactured by">
-                                        </div>
+                                    <label for="">IMAGE</label>
+                                    <input type="file"  class="form-control" name="image">
 
                                 </div>
-                                <div class="form-group">
 
+                        </div>
+                        <div class="col-md-6 d-flex flex-column">
+                            <div class="form-group">
+                                <label for="">NAME</label>
+                                <input type="text" required class="form-control" value="{{med.Name}}" name="name" placeholder="Name" />
+                            </div>
 
-                                    <label for="">DESCRIPTION </label>
-                                    <textarea name="desc"   class="form-control" value="" name="description" 
-                                        placeholder="Description" rows="6"> {{med.Description}}</textarea>
-                                </div>
+                            <div class="form-group">
+                                <label for="">MfgDate </label>
+                                <input type="date"  class="form-control" name="mfgdate"
+                                    placeholder="MFG ">
+                            </div>
 
-                                <div class="row my-3">
-                                    <div class="col-md-4 mx-auto">
-                                        <button class="btn btn-primary btn-sm">SUBMIT</button>
-                                    </div>
+                            <div class="form-group">
+                                <label for="">MANUFACTURED BY </label>
+                                <input type="text" required name="manfc" value="{{med.ManufacturedBy}}" class="form-control" name="manufacturedby"
+                                    placeholder="Manufactured by">
+                            </div>
 
-
-
-                                </div>
-                            </form>
+                            <div class="form-group">
+                                <label for="">STOCK </label>
+                                <input type="number" value="{{med.stock}}" required name="stock" class="form-control" 
+                                    placeholder="Stock" min="1">
+                            </div>
                         </div>
                     </div>
-                    </form>
-                </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+
+                                <label for="">DESCRIPTION </label>
+                                 <textarea name="desc" required class="form-control" name="description"
+                                     placeholder="Description" rows="6"> {{med.Description}}</textarea>
+                             </div>
+                        </div>
+
+                        <div class="col-md-12 text-center">
+                            <button class="btn btn-primary" type="submit">Edit</button>
+                        </div>
+                        
+                    </div>
                 </form>
             </div>
-            </form>
         </div>
-    </div>
 
-</body>
+               
 
-</html>
 {% endblock %}

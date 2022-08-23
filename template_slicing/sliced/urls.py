@@ -7,7 +7,6 @@ from . import views
 urlpatterns = [
     path ('home', views.index , name="home"),
     path('login', views.login_view, name = 'login'),
-    path('register', views.register, name = 'register'),
     path('logout', views.logout_view, name = 'logout'),
     path('adddiseases' , views.add_diseases, name='add_diseases'),
     path('list-diseases', views.listDisease, name = "listDisease"),
@@ -17,6 +16,7 @@ urlpatterns = [
     path('list-medicine', views.listmedicine, name = "listmedicine"),
     path('editmedicine/<int:ids>', views.edit_medicine, name="edit-medicine"),
     path('deletemedicine/<int:ids>', views.deletemedicine, name="deletemedicine"),
-    path('addorders', views.add_orders, name="add_orders"),
+    path('adminOrders', views.allOrders, name="adminOrders"),
+    path('updateOrder/<int:id>/<str:type>', views.updateOrder, name='updateOrder')
 
 ]

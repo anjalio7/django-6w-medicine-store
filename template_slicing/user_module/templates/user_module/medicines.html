@@ -1,0 +1,58 @@
+{% extends 'user_module/layout.html' %}
+{% load static %}
+
+{% block body %}
+<section class="health_section layout_padding">
+    <div class="health_carousel-container">
+      <h2 class="text-uppercase">
+        Medicine & Health
+
+      </h2>
+      <div class="carousel-wrap layout_padding2 d-flex justify-content-around flex-wrap">
+
+        {% if medData|length > 0 %}
+        
+            {% for i in medData %}
+
+            <div class="item">
+            
+                <div class="box mb-4">
+                  <div class="btn_container">
+                    <a href="{% url 'viewMedDetail' i.id %}">
+                      View Details
+                    </a>
+                  </div>
+                  <div class="img-box">
+                    <img src="{{i.Image.url}}" alt="" height="200px">
+                  </div>
+                  <div class="detail-box text-center">
+                    <div class="text">
+                      <h5>
+                        {{i.Name}}
+                      </h5>
+                      <h6 class="price">
+                        <span>
+                            ₹
+                        </span>
+                        {{i.Price}}
+                      </h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+        {% else %}
+            <div class="container">
+                <div class="alert alert-danger">
+                    No data to show yet.
+                </div>
+            </div>
+        {% endif %}
+
+          
+         
+      </div>
+    </div>
+    </section>
+
+{% endblock %}

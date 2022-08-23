@@ -485,7 +485,7 @@ a:focus {
     flex-direction: column;
     align-items: center;
     width: 300px;
-    height: 360px;
+    height: 430px;
     justify-content: space-between;
     border: 1px solid #a6a6a6;
     margin: 20px 0;
@@ -525,7 +525,7 @@ a:focus {
       .text {
         display: flex;
 
-        h6 {
+        h4 {
           text-transform: uppercase;
 
           &.price {
